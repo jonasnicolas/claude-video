@@ -1,5 +1,5 @@
 # Agent Skills install-time scanner exclusions for repository-root scans.
-# Keep the public bundle focused on the runtime skill under skills/watch/.
+# Keep the public bundle focused on the runtime skills under skills/ (watch, engine).
 
 # VCS, local envs, caches, and generated outputs
 .git/
@@ -19,6 +19,7 @@ dist/
 .claude-plugin/
 hooks/
 dev-sync.sh
+setup-watch.sh
 
 # Non-runtime docs, plans, and tests
 tests/
@@ -28,6 +29,7 @@ AGENTS.md
 CLAUDE.md
 V2_PLAN.md
 V2_CONCERNS.md
+HANDOFF.md
 
 # Dev-only script shipped inside the skill tree but not needed at runtime
 skills/watch/scripts/build-skill.sh

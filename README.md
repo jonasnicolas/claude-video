@@ -158,6 +158,22 @@ Next, try a public video URL and ask for **transcript detail**. Native captions 
 
 You can add [speech transcription](#choose-a-transcription-fallback) afterward. **Local WhisperX requires Watch v0.3.0 or later**; if your installed copy is v0.2.0, update after the new release is available.
 
+## Turn a tutorial into a skill: `/engine`
+
+`/watch` answers questions about a video. `/engine` goes one step further and turns a video that *teaches a workflow* into a skill that performs it:
+
+```text
+/engine https://youtu.be/<tutorial> 
+```
+
+Two readers watch the video independently — one through Gemini (whole video plus audio), one through local frames and transcript — and each writes up the workflow without seeing the other's notes. A script then diffs the two writeups. Where they agree, the claim is probably sound. Where they disagree, one of them misread something, and only that short list reaches you.
+
+That is the point: you adjudicate the conflicts instead of re-watching the video. Disagreements that carry a timestamp get a targeted re-watch first, so most resolve without asking you at all. The result is written to `~/.claude/skills/<name>/SKILL.md`, with the steps that came out of adjudication marked — those are where the readers disagreed and where the skill is most likely to be wrong.
+
+Two things worth knowing. Without the local toolchain both readers fall back to Gemini, so they share one model's blind spots and their agreement means less; `bash setup-watch.sh --local` restores the independent second reader. And the conflict list finds *disagreement*, not *omission* — something both readers missed produces no conflict at all.
+
+Because a generated skill is instructions an agent will later execute, `/engine` treats video content as untrusted: it never runs commands the video shows, and it shows you the rendered skill for approval before installing it.
+
 ## Missing tools?
 
 Watch uses **Python 3.10+, FFmpeg/ffprobe, and current yt-dlp**. YouTube also needs a supported JavaScript runtime/EJS setup. Installing the skill gives the agent instructions and scripts; it does not bundle these programs.
