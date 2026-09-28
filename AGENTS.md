@@ -9,6 +9,7 @@ Agent Skills package that gives an agent a video input. Installable across Claud
 - `skills/watch/scripts/{download,frames,transcribe,whisper,local_whisperx,setup,config,runtime}.py` — yt-dlp wrapper, ffmpeg frame extraction + auto-fps, caption/Whisper transcription, preflight/installer, shared config.
 - `skills/watch/scripts/build-skill.sh` — builds `dist/watch.skill` for claude.ai upload (dev-only).
 - `hooks/` — Claude Code SessionStart setup-status hook (Claude Code only).
+- `setup-watch.sh` — one-shot Gemini-engine setup for a user's own machine; prompts for the key with echo off and writes it via `config.write_settings` (mode `0600`).
 - `.claude-plugin/` — `plugin.json` + `marketplace.json` (Claude Code plugin + local marketplace).
 - `.codex-plugin/plugin.json` — Codex/agents manifest; `"skills": "./skills/"` points the Agent Skills CLI at the self-contained skill folder.
 - `.agents/plugins/marketplace.json` — agents marketplace listing pointing at the repo-root plugin.
@@ -27,8 +28,8 @@ Agent Skills package that gives an agent a video input. Installable across Claud
 
 | Surface | Install |
 |---------|---------|
-| Claude Code | `/plugin marketplace add bradautomates/claude-video` then `/plugin install watch@claude-video` |
-| Codex / Cursor / Copilot / +50 | `npx skills add bradautomates/claude-video -g` |
+| Claude Code | `/plugin marketplace add jonasnicolas/claude-video` then `/plugin install watch@claude-video` |
+| Codex / Cursor / Copilot / +50 | `npx skills add jonasnicolas/claude-video -g` |
 | claude.ai (web) | upload `dist/watch.skill` (built by `skills/watch/scripts/build-skill.sh`) |
 
 ## Commands
@@ -42,6 +43,9 @@ bash skills/watch/scripts/build-skill.sh   # → dist/watch.skill
 
 # Dev: mirror the working tree into the installed Claude Code plugin cache
 ./dev-sync.sh                       # --dry-run to preview
+
+# Configure the gemini engine on this machine (prompts for the key, never echoes it)
+bash setup-watch.sh                 # --local to also install ffmpeg/yt-dlp
 ```
 
 ## Rules
